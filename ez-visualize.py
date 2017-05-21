@@ -33,4 +33,4 @@ for n in L:
 		stroke_width=1,
 		fill_opacity=0))
 
-print(dwg.tostring())
+print((dwg.tostring()))

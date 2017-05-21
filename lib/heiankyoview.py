@@ -11,7 +11,7 @@ def half(n):
 
 def delElems(L, indices):
 	DL = []
-	for i in xrange(0, len(indices)):
+	for i in range(0, len(indices)):
 		idx = indices[i]
 		DL.append( idx - i )
 	for i in DL:
@@ -139,7 +139,7 @@ class BoolT:
 		if self.n + addI > self.N():
 			self.doubleN()
 	def mvI(self, startI, addI):
-		for i in reversed(xrange(startI + addI, self.n)):
+		for i in reversed(range(startI + addI, self.n)):
 			self.copyI(i - addI, i)
 		self.fillIRange(startI, startI + addI - 1, False)
 	def expandI(self, startI, addI):
@@ -155,7 +155,7 @@ class BoolT:
 		if self.m + addJ > self.M():
 			self.doubleM()
 	def mvJ(self, startJ, addJ):
-		for j in reversed(xrange(startJ + addJ, self.m)):
+		for j in reversed(range(startJ + addJ, self.m)):
 			self.copyJ(j - addJ, j)
 		self.fillJRange(startJ, startJ + addJ - 1, False)
 	def expandJ(self, startJ, addJ):
@@ -193,8 +193,8 @@ class BoolTable:
 	def copyJ(self, src, dest):
 		self.boolT.copyJ(self.adjustJ(src), self.adjustJ(dest))
 	def show(self):
-		for i in xrange(0, self.n()):
-			for j in xrange(0, self.m()):
+		for i in range(0, self.n()):
+			for j in range(0, self.m()):
 				pass
 
 class BinarySearch:
@@ -239,13 +239,13 @@ class Coordinate:
 		return self.maxLine() - self.minLine()
 
 	def getRightIntersection(self, i, line):
-		for j in xrange(i+1, self.size()):
+		for j in range(i+1, self.size()):
 			upper = self.L[j]
 			if line <= upper:
 				return (i, j-1)
 		return (i, self.size()-1)	
 	def getLeftIntersection(self, i, line):
-		for j in reversed(xrange(0, i)):
+		for j in reversed(range(0, i)):
 			lower = self.L[j]
 			if line >= lower:
 				return (j, i-1)
@@ -322,13 +322,13 @@ class PackingGrid:
 				self.candidates.append(c)
 		def Vertical(i, start, end, lowerPos, upperPos):
 			OneSide(i, start, lowerPos, upperPos)
-			for j in xrange(start+1, end):
+			for j in range(start+1, end):
 				OneSide(i, j, lowerPos, upperPos)
 				OneSide(i, j, upperPos, lowerPos)
 			OneSide(i, end, upperPos, lowerPos)
 		def HorizonTal(j, start, end, leftPos, rightPos):
 			OneSide(start, j, leftPos, rightPos)
-			for i in xrange(start+1, end):
+			for i in range(start+1, end):
 				OneSide(i, j, leftPos, rightPos)
 				OneSide(i, j, rightPos, leftPos)
 			OneSide(end, j, rightPos, leftPos)
@@ -377,8 +377,8 @@ class PackingGrid:
 
 	def intersects(self, x, y, position, w, h):
 		iLeft, iRight, jBottom, jTop = self.calcIntersectableRegion(x, y, position, w, h)
-		for i in xrange(iLeft, iRight + 1):
-			for j in xrange(jBottom, jTop + 1):
+		for i in range(iLeft, iRight + 1):
+			for j in range(jBottom, jTop + 1):
 				if self.isOccupied(i, j):
 					return True
 		return False
@@ -462,7 +462,7 @@ class RectanglePacking:
 		N = len(self.grid.candidates)
 		decisionIdx = N
 		delList = []
-		for i in reversed(xrange(0, N)):
+		for i in reversed(range(0, N)):
 			candidate = self.grid.candidates[i]
 
 			candidate.show()
@@ -592,8 +592,8 @@ class TreePacking:
 		Calculate the size and position of the nodes.
 		"""
 		L = BFS(tree)
-		branches = filter(lambda id: not tree.isLeaf(id), L)
-		leaves = filter(lambda id: tree.isLeaf(id), L)
+		branches = [id for id in L if not tree.isLeaf(id)]
+		leaves = [id for id in L if tree.isLeaf(id)]
 
 		pad = 2
 			
@@ -625,8 +625,8 @@ class TreePacking:
 				N = int(math.ceil(sq))		
 				M = int(math.ceil(float(n)/N))
 				stride = 2 * D + pad
-				for j in xrange(0, M):
-					for i in xrange(0, N):
+				for j in range(0, M):
+					for i in range(0, N):
 						idx = j * N + i
 						if not idx < n:
 							break
@@ -715,7 +715,7 @@ class Graph:
 		self.parent[child] = parent
 
 	def getRoot(self):
-		for k in self.nodes.keys():
+		for k in list(self.nodes.keys()):
 			anyID = k
 			break
 		root = anyID
